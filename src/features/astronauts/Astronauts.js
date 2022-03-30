@@ -4,22 +4,26 @@ import { fetchAstronauts } from "./astronautsSlice";
 
 function Astronauts() {
   const dispatch = useDispatch();
-
   const astronauts = useSelector((state) => state.astronauts.entities);
-
+  const status = useSelector((state) => state.astronauts.status)
   function handleClick() {
-    // dispatch the action creator (see below!)
     dispatch(fetchAstronauts());
   }
 
   const astronautsList = astronauts.map((astro) => (
-    <li key={astro.id}>{astro.name}</li>
+    <li key={astro.name}>{astro.name}</li>
   ));
 
   return (
     <div>
       <button onClick={handleClick}>Get Astronauts</button>
-      {astronautsList}
+      {
+        status === "loading" ? (
+          <p>Loading...</p>
+        ) : (
+          astronautsList
+        )
+      }
     </div>
   );
 }
